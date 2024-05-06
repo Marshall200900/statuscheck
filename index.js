@@ -2,9 +2,10 @@ import { Telegraf } from "telegraf";
 import { startScheduler } from './scheduler.js';
 import { openDb } from './db_management.js';
 import replies from './replies.json' assert { type: 'json' };
+import 'dotenv/config.js';
 
-const TOKEN = '6400431944:AAHSzQM7qJV1H9QadkvzO8HXLf2WMym4ayE';
-const chatId = '408342168';
+const TOKEN = process.env.TOKEN;
+const chatId = process.env.CHAT_ID;
 
 const bot = new Telegraf(TOKEN);
 let lastMessageId = null;

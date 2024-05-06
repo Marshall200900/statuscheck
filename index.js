@@ -1,11 +1,14 @@
 import { Telegraf } from "telegraf";
 import { startScheduler } from './scheduler.js';
 import { openDb } from './db_management.js';
-import replies from './replies.json' assert { type: 'json' };
 import 'dotenv/config.js';
+import fs from 'fs';
 
 const TOKEN = process.env.TOKEN;
 const chatId = process.env.CHAT_ID;
+
+const rawdata = fs.readFileSync('replies.json');
+const replies = JSON.parse(rawdata);
 
 const bot = new Telegraf(TOKEN);
 let lastMessageId = null;

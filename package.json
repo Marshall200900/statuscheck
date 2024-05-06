@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
     "node-cron": "^3.0.3",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",

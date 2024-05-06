@@ -40,16 +40,20 @@ const checkHealthMessage = async () => {
     // db.exec('DELETE from records')
     Object.keys(replies).forEach((key) => {
         bot.action(key, async (ctx) => {
-            bot.telegram.deleteMessage(chatId, lastMessageId);
-
-            if (lastMessageId !== null && lastDate !== null) {
-                const response = await db.get(`SELECT record_id from records WHERE record_id = ${lastMessageId}`);
-                if (response !== undefined) {
-                    ctx.reply('You have already sent your mood evaluation.');
-                } else {
-                    await db.exec(`INSERT INTO records VALUES (${lastMessageId}, ${key}, ${lastDate})`);
-                    ctx.reply(replies[key]);
-                }
+            if (lastMessageId === null || lastDate === null) {
+                return;
+            }
+            try {
+                await bot.telegram.deleteMessage(chatId, lastMessageId);
+            } catch {
+                console.log('Error while deleting message');
+            }
+            const response = await db.get(`SELECT record_id from records WHERE record_id = ${lastMessageId}`);
+            if (response !== undefined) {
+                ctx.reply('You have already sent your mood evaluation.');
+            } else {
+                await db.exec(`INSERT INTO records VALUES (${lastMessageId}, ${key}, ${lastDate})`);
+                ctx.reply(replies[key]);
             }
         });
     });

@@ -3,11 +3,16 @@ import { startScheduler } from './scheduler.js';
 import { openDb } from './db_management.js';
 import 'dotenv/config.js';
 import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const TOKEN = process.env.TOKEN;
 const chatId = process.env.CHAT_ID;
 
-const rawdata = fs.readFileSync('replies.json');
+const rawdata = fs.readFileSync(path.join(__dirname, 'replies.json'));
 const replies = JSON.parse(rawdata);
 
 const bot = new Telegraf(TOKEN);
